@@ -2,9 +2,10 @@
 	<head>
 	</head>
     <body>
-		<canvas id="canvas" width="400" height="400"></canvas>
+		<canvas id="canvas" width="1000" height="600"></canvas>
 		<div id="out"></div>
-		<script> 
+		<script>
+			
 		
 function kulka(x,y,r,vx,vy,color){
 	this.x = x;
@@ -22,6 +23,13 @@ function klocek(x,y,width,height,color){
 	this.height = height;
 	this.color = color;
 }
+
+function random_rgb() {
+    var o = Math.round, r = Math.random, s = 255;
+    return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
+}			
+			
+var k = new kulka(100,100,25,3,3,random_rgb());
 		</script>	
     </body>
 </html>
