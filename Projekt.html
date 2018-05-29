@@ -23,6 +23,16 @@ function klocek(x,y,width,height,color){
 	this.height = height;
 	this.color = color;
 }
+			
+function belka(x,y,width,height,vx,vy,color){ //
+	this.x = x;
+	this.y = y;
+	this.width = width;
+	this.height = height;
+	this.color = color;
+	this.vx = vx;
+	this.vy = vy;
+}
 
 function random_rgb() {
     var o = Math.round, r = Math.random, s = 255;
@@ -30,6 +40,7 @@ function random_rgb() {
 }			
 			
 var k = new kulka(100,100,25,3,3,random_rgb());
+var b = new belka(600,500,50,30,random_rgb());	
 			
 kulka.prototype.draw=function()
 {	
@@ -42,7 +53,41 @@ kulka.prototype.draw=function()
 	ctx.closePath();
 }
 
+belka.prototype.draw=function() // rysuje belke którą porusza gracz(na razie statyczne, później użyte zostaną tu prędkości)
+{	
+    
+	ctx.beginPath();
+	ctx.fillStyle=this.color;
+	ctx.fillRect(this.x, this.y, this.width, this.height);
+	ctx.closePath();
+}
+
+kulka.prototype.kolizja_tlo=function() // zmienia pozycja kulki oraz sprawdza czy uderza o inne obiekty na razie tylko dla canvasu, p
+// jak wstawie bloczki funkcja zostanie zmieniona
+{
+
+if(this.x+this.r<=0){
+this.vx=-this.vx;
+
+}
+if(this.x+this.r>=1000){
+this.vx=-this.vx
+
+}
+if(this.y+this.r>=600){
+this.vy=-this.vy
+
+}
+if(this.y+this.r<=0){
+this.vy=-this.vy
+
+}
+this.x+=this.vx;
+this.y+=this.vy;
+}
+
 k.draw();
+b.draw();
 		</script>	
     </body>
 </html>
