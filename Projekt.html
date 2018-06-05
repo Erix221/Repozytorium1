@@ -67,28 +67,41 @@ belka.prototype.rysuj=function() // rysuje belke którą porusza gracz(na razie 
 	ctx.closePath();
 }
 
-kulka.prototype.kolizja_tlo=function() // zmienia pozycja kulki oraz sprawdza czy uderza o inne obiekty na razie tylko dla canvasu, p
-// jak wstawie bloczki funkcja zostanie zmieniona
+kulka.prototype.ruch=function() // zmienia pozycja kulki 
 {
+this.x+=this.vx;
+this.y+=this.vy;
+}
 
-if(this.x+this.r<=0){
+kulka.prototype.kolizja_tlo=function() // sprawdza czy kulka nie uderza o krawędzi ekranu
+{
+if(this.x+this.r<=0){ // prawa i lewa  strona 
 this.vx=-this.vx;
-
 }
-if(this.x+this.r>=1000){
+if(this.x+this.r>=canvas.width){
 this.vx=-this.vx
-
 }
-if(this.y+this.r>=600){
-this.vy=-this.vy
-
+if(this.y+this.r>=canvas.height){ // dół i góra ekranu
+// tutaj gra będzie kończona gdyż kulka spadnie na ziemie
 }
 if(this.y+this.r<=0){
 this.vy=-this.vy
+}
+}
+
+kulka.prototype.kolizja_belka=function()
+{
 
 }
-this.x+=this.vx;
-this.y+=this.vy;
+
+belka.prototype.kolizja_tlo=function (){ // funkcja sprawdzajaca czy belka nie wychodzi za ekran
+	if(this.x < 0){
+		this.x = 0;
+	} else{ 
+	if(this.x + this.width > canvas.width){
+		this.x = canvas.width - this.width;
+	}
+	}
 }
 
 k.rysuj();
