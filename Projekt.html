@@ -5,7 +5,10 @@
 		<canvas id="canvas" width="1000" height="600"></canvas>
 		<div id="out"></div>
 		<script>
-			
+let plansza = document.querySelector('canvas');
+let ctx = plansza.getContext('2d');
+let k = new kulka(100,100,15,3,3,random_rgb());
+let b = new belka(600,500,50,30,3,3,random_rgb());				
 		
 function kulka(x,y,r,vx,vy,color){
 	this.x = x;
@@ -42,7 +45,7 @@ function random_rgb() {
 var k = new kulka(100,100,25,3,3,random_rgb());
 var b = new belka(600,500,50,30,random_rgb());	
 			
-kulka.prototype.draw=function()
+kulka.prototype.rysuj=function()
 {	
     
 	ctx.beginPath();
@@ -53,12 +56,14 @@ kulka.prototype.draw=function()
 	ctx.closePath();
 }
 
-belka.prototype.draw=function() // rysuje belke którą porusza gracz(na razie statyczne, później użyte zostaną tu prędkości)
+belka.prototype.rysuj=function() // rysuje belke którą porusza gracz(na razie statyczne, później użyte zostaną tu prędkości)
 {	
     
 	ctx.beginPath();
-	ctx.fillStyle=this.color;
-	ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fillStyle=this.color;
+	ctx.rect(this.x,this.y,this.width,this.height);
+	ctx.fill();
+	ctx.stroke();
 	ctx.closePath();
 }
 
@@ -86,8 +91,8 @@ this.x+=this.vx;
 this.y+=this.vy;
 }
 
-k.draw();
-b.draw();
+k.rysuj();
+b.rysuj();
 		</script>	
     </body>
 </html>
