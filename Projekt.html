@@ -41,10 +41,7 @@ function random_rgb() {
     var o = Math.round, r = Math.random, s = 255;
     return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
 }			
-			
-var k = new kulka(100,100,25,3,3,random_rgb());
-var b = new belka(600,500,50,30,random_rgb());	
-			
+							
 kulka.prototype.rysuj=function()
 {	
     
