@@ -1,10 +1,10 @@
 ﻿let plansza = document.querySelector('canvas');
 let ctx = plansza.getContext('2d');
-let k = new kulka(200,200,22,6,6,"red",0);
+let k = new kulka(random(0,1000),random(200,400),22,random(4,6),random(4,6),"red",0);
 let b = new belka(920,785,225,50,"black");
-let pr = false;
-let lw = false;
-let koniec = false;
+let pr = false;// stan klawiszy
+let lw = false; 
+let koniec = false; // stan gry
 let wygrana = false;
 let ax1,ay1,ax2,ay2,bx1,by1,bx2,by2,cx1, cy1, cx2, cy2; // do funkcji kolizja_belka i kolizja_blok
 let tab; // tablica z klockami do niszczenia
@@ -46,7 +46,8 @@ tab= [  new klocek(50,50,100,20,random_rgb()),
 		new klocek(858,113,100,20,random_rgb())];	
 
 
-
+		
+		
 //funkcje wykrywania klawiszy		
 document.onkeydown = function(e){
 	if(e.keyCode === 65){
@@ -69,7 +70,7 @@ document.onkeyup = function(e){
 	}
 }
 
-function nowa_gra(){
+function nowa_gra(){ // zaczyna gre od poczatku
 	out.innerHTML = "";
 	ptk.innerHTML = "0";
 	koniec = false;
@@ -115,7 +116,7 @@ function nowa_gra(){
 	Calosc();
 }
 
-kulka.prototype.kolizja_blok=function (){
+kulka.prototype.kolizja_blok=function (){ // kolizja kulki z klockami
 	 ax1 = this.x-this.r;
 	 ay1 = this.y-this.r;
 	 ax2 = this.x+this.r;
@@ -143,7 +144,7 @@ kulka.prototype.kolizja_blok=function (){
 }
 
 //
-belka.prototype.Sterowanie = function(){
+belka.prototype.Sterowanie = function(){ // sterowanie belka
 	if(pr){
 		if(this.xPr < this.max){
 			this.xPr += this.A;	
@@ -171,15 +172,14 @@ belka.prototype.Sterowanie = function(){
 	this.x+=this.xPr;
 }
 		
-function Mapa(){
+function Mapa(){ // rysuje mape
 	for(let i = 0; i < tab.length; i++){
-		//ctx.save();
 		ctx.fillStyle = tab[i].color;
 		ctx.fillRect(tab[i].x,tab[i].y,tab[i].width,tab[i].height);
-		//ctx.restore();	
+	
 	}
 }				
-		
+// obiekty		
 function kulka(x,y,r,vx,vy,color,score){
 	this.x = x;
 	this.y = y;
@@ -210,12 +210,13 @@ function belka(x,y,width,height,color){ //
 	this.xPr = 0; // aktualne przyspieszenie 
 
 }
+// losowe kolory
 function random_rgb() {
     let o = Math.round, r = Math.random, s = 255;
     return 'rgb(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
 }			
 							
-kulka.prototype.rysuj=function()
+kulka.prototype.rysuj=function() // rysuje kulke
 {	
     
 	ctx.beginPath();
@@ -243,22 +244,22 @@ this.y+=this.vy;
 
 kulka.prototype.kolizja_tlo=function() // sprawdza czy kulka nie uderza o krawędzi ekranu
 {
-if(this.x+this.r<=0){ // prawa i lewa  strona 
-this.vx=-this.vx;
+	if(this.x+this.r<=0){ // prawa i lewa  strona 
+		this.vx=-this.vx;
 }
-if(this.x+this.r>=canvas.width){
-this.vx=-this.vx
+	if(this.x+this.r>=canvas.width){
+		this.vx=-this.vx
 }
-if(this.y + this.r > canvas.height){
+	if(this.y + this.r > canvas.height){
 		koniec = true;
 		wygrana = false;
 }
-if(this.y+this.r<=0){
-this.vy=-this.vy
+	if(this.y+this.r<=0){
+		this.vy=-this.vy;
 }
 }
 
-kulka.prototype.kolizja_belka= function(){
+kulka.prototype.kolizja_belka= function(){ // funkcja sprawdzajaca kolicja kulki z belka
 	ax1 = this.x-this.r;
 	ay1 = this.y-this.r;
 	ax2 = this.x+this.r;
@@ -282,19 +283,20 @@ belka.prototype.kolizja_tlo=function (){ // funkcja sprawdzajaca czy belka nie w
 }
 
 
-function Wygrana_spr(){
+function Wygrana_spr(){ // funkcja sprawdza czy wygrales
 	if(tab.length < 1){
 		koniec = true;
 		wygrana = true;
 	}
 }
 
+function random(min,max){ // funkcja wybierajaca losowa liczbe z zakresu
+	return Math.random()*(max-min)+min;
+}	
 
-
-function Tlo(){
+function Tlo(){ // funkcja czyszczaca tlo
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 }
-
 
 function Calosc(){ // Całość funkcja gry
 b.Sterowanie();
@@ -313,11 +315,12 @@ if(koniec === false){
 	} else {
 	if(wygrana){
 		out.innerHTML += "<b>Wygrałeś, kliknij spację jeśli chcesz zacząć od nowa!</b>";
+		Win();
 	}
 	else{
 	out.innerHTML += "<b>Przegrałeś :( , kliknij spację żeby zacząć od nowa.</b>";
 	}
-	Sterowanie();
+	b.Sterowanie();
 }
 		
 }
